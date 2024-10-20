@@ -1,0 +1,10 @@
+Resources:
+  MyLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.handler
+      Role: arn:aws:iam::452756145607:role/pruebaRolFullAcces
+      Code:
+        S3Bucket: imagenesmaxbot 
+        S3Key: lambda-code.zip
+      Runtime: nodejs14.x

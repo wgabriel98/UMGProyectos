@@ -1,0 +1,24 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UseNode@1
+  inputs:
+    versionSpec: '14.x'
+    checkLatest: true
+
+- script: |
+    npm install
+    zip -r lambda-code.zip .
+    aws s3 cp lambda-code.zip s3://imagenesmaxbot
+  displayName: 'Upload Lambda Code to S3'
+
+- script: |
+    aws cloudformation deploy \
+      --template-file template.yaml \
+      --stack-name pilaLambdaUMG \
+      --capabilities CAPABILITY_NAMED_IAM
+  displayName: 'Deploy CloudFormation Stack'
